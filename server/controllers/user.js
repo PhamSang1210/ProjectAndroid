@@ -37,11 +37,8 @@ export const signup = asyncError(async (req, res, next) => {
 
     let avatar = undefined;
 
-    console.log(req.file);
-
     if (req.file) {
         const file = getDataUri(req.file);
-        console.log("🚀 ~ signup ~ file:", file);
         const myCloud = await cloudinary.v2.uploader.upload(file.content);
         avatar = {
             public_id: myCloud.public_id,
@@ -136,6 +133,7 @@ export const updatePic = asyncError(async (req, res, next) => {
     await cloudinary.v2.uploader.destroy(user.avatar.public_id);
 
     const myCloud = await cloudinary.v2.uploader.upload(file.content);
+
     user.avatar = {
         public_id: myCloud.public_id,
         url: myCloud.secure_url,
